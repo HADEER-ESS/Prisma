@@ -1,6 +1,7 @@
 import React from 'react'
 import { Favorite, Preview } from '../screens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import COLORS from '../constant/colors';
 
 
 const Stack = createNativeStackNavigator()
@@ -11,6 +12,9 @@ const FavoriteStack = () => {
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
+                contentStyle: {
+                    backgroundColor: COLORS.WHITE
+                }
             }}
         >
             <Stack.Screen

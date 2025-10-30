@@ -2,7 +2,6 @@ import { FavoriteFlow, HomeFlow } from ".";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo } from "@react-native-vector-icons/entypo";
 import COLORS from "../constant/colors";
-import TabBarIconContainer from "../components/TabBarIconContainer";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +22,8 @@ const RootNavigator = () => {
                 tabBarStyle: {
                     height: 70,
                     paddingHorizontal: 10,
+                    borderTopWidth: 0,
+                    elevation: 0
                 }
             }}
         >

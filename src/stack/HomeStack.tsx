@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import { Details, Home, Result } from '../screens'
+import COLORS from '../constant/colors'
 
 const Stack = createNativeStackNavigator()
 
@@ -9,7 +10,9 @@ const HomeStack = () => {
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
-
+                contentStyle: {
+                    backgroundColor: COLORS.WHITE
+                }
             }}
         >
             <Stack.Screen
