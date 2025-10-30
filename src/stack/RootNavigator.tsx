@@ -1,0 +1,54 @@
+import { FavoriteFlow, HomeFlow } from ".";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Entypo } from "@react-native-vector-icons/entypo";
+import COLORS from "../constant/colors";
+import TabBarIconContainer from "../components/TabBarIconContainer";
+
+const Tab = createBottomTabNavigator();
+
+
+
+const RootNavigator = () => {
+    return (
+        <Tab.Navigator
+            initialRouteName="home_flow"
+            screenOptions={{
+                headerShown: false,
+                tabBarShowLabel: false,
+                tabBarItemStyle: {
+                    marginHorizontal: 30,
+                    borderRadius: 16,
+                    overflow: 'hidden',
+                },
+                tabBarStyle: {
+                    height: 70,
+                    paddingHorizontal: 10,
+                }
+            }}
+        >
+            <Tab.Screen
+                options={{
+                    tabBarActiveBackgroundColor: COLORS.PRIMARY,
+                    tabBarInactiveBackgroundColor: COLORS.WHITE,
+                    tabBarIcon: ({ focused }) =>
+                        <Entypo name="home" size={24} color={focused ? COLORS.WHITE : COLORS.PRIMARY} />
+                }}
+                name="home_flow"
+                component={HomeFlow}
+            />
+            <Tab.Screen
+                options={{
+                    tabBarActiveBackgroundColor: COLORS.PRIMARY,
+                    tabBarInactiveBackgroundColor: COLORS.WHITE,
+                    tabBarIcon: ({ focused }) =>
+                        <Entypo name="heart" size={24} color={focused ? COLORS.WHITE : COLORS.PRIMARY} />
+
+                }}
+                name="favorite_flow"
+                component={FavoriteFlow}
+            />
+        </Tab.Navigator>
+    )
+}
+
+export default RootNavigator;
