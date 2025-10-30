@@ -1,9 +1,9 @@
 import React from 'react'
 
-const SavedScreen = () => {
+const ResultScreen = () => {
     return (
         <></>
     )
 }
 
-export default SavedScreen
+export default ResultScreen
