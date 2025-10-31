@@ -1,11 +1,31 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
-import { Details, Home, Result } from '../screens'
+import React, { useLayoutEffect } from 'react'
+import { Details, FaceCaption, Home, Result } from '../screens'
 import COLORS from '../constant/colors'
+import { getFocusedRouteNameFromRoute, RouteProp } from '@react-navigation/native'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { RootStackParamList } from './RootNavigator'
 
 const Stack = createNativeStackNavigator()
 
-const HomeStack = () => {
+type StackProps = {
+    navigation: BottomTabNavigationProp<RootStackParamList, "home_flow">,
+    route: RouteProp<RootStackParamList, 'home_flow'>
+}
+
+const HomeStack = ({ navigation, route }: StackProps) => {
+
+    useLayoutEffect(() => {
+        const routeName = getFocusedRouteNameFromRoute(route) ?? "home_screen"
+
+        if (routeName === "caption_screen") {
+            navigation.setOptions({ tabBarStyle: { display: 'none' } })
+        } else {
+            navigation.setOptions({ tabBarStyle: { display: 'flex' } })
+        }
+    })
+
+
     return (
         <Stack.Navigator
             screenOptions={{
@@ -18,6 +38,10 @@ const HomeStack = () => {
             <Stack.Screen
                 name='home_screen'
                 component={Home}
+            />
+            <Stack.Screen
+                name='caption_screen'
+                component={FaceCaption}
             />
             <Stack.Screen
                 name='result_screen'
