@@ -25,8 +25,9 @@ export default ActionBtn
 
 const styles = StyleSheet.create({
     btnContainer: {
-        flex: 1,
-        marginHorizontal: 24
+        // flex: 1,
+        marginHorizontal: 24,
+        borderRadius: 12
     },
     btnText: {
         textAlign: 'center',
