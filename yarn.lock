@@ -1797,6 +1797,14 @@
   dependencies:
     nanoid "^3.3.11"
 
+"@shopify/react-native-skia@^2.3.9":
+  version "2.3.9"
+  resolved "https://registry.yarnpkg.com/@shopify/react-native-skia/-/react-native-skia-2.3.9.tgz#c96ff9087b09ddfe4f8630a2ef831f6eef7f3608"
+  integrity sha512-bC4K8cfL7UVZ1ttI8DFDiM5nQVtd3wopuvimTZp9QYsPEij2kEoQEy3r/Ybq8G8LlOMa3ItmTlQPBr+FbUhIEA==
+  dependencies:
+    canvaskit-wasm "0.40.0"
+    react-reconciler "0.31.0"
+
 "@sideway/address@^4.1.5":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@sideway/address/-/address-4.1.5.tgz#4bc149a0076623ced99ca8208ba780d65a99b9d5"
@@ -2045,6 +2053,11 @@
   version "9.3.1"
   resolved "https://registry.yarnpkg.com/@vscode/sudo-prompt/-/sudo-prompt-9.3.1.tgz#c562334bc6647733649fd42afc96c0eea8de3b65"
   integrity sha512-9ORTwwS74VaTn38tNbQhsA5U44zkJfcb0BdTSyyG6frP4e8KMtHuTXYmwefe5dpL8XB1aGSIVTaLjD3BbWb5iA==
+
+"@webgpu/types@0.1.21":
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/@webgpu/types/-/types-0.1.21.tgz#b181202daec30d66ccd67264de23814cfd176d3a"
+  integrity sha512-pUrWq3V5PiSGFLeLxoGqReTZmiiXwY3jRkIG5sLLKjyqNxrwm/04b4nw7LSmGWJcKk59XOM/YRTUwOzo4MMlow==
 
 "@xmldom/xmldom@^0.8.8":
   version "0.8.11"
@@ -2517,6 +2530,13 @@ caniuse-lite@^1.0.30001751:
   version "1.0.30001751"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001751.tgz#dacd5d9f4baeea841641640139d2b2a4df4226ad"
   integrity sha512-A0QJhug0Ly64Ii3eIqHu5X51ebln3k4yTUkY1j8drqpWHVreg/VLijN48cZ1bYPiqOQuqpkIKnzr/Ul8V+p6Cw==
+
+canvaskit-wasm@0.40.0:
+  version "0.40.0"
+  resolved "https://registry.yarnpkg.com/canvaskit-wasm/-/canvaskit-wasm-0.40.0.tgz#61a77657259fddfc0025ad1c3f57ac8d4d5850ff"
+  integrity sha512-Od2o+ZmoEw9PBdN/yCGvzfu0WVqlufBPEWNG452wY7E9aT8RBE+ChpZF526doOlg7zumO4iCS+RAeht4P0Gbpw==
+  dependencies:
+    "@webgpu/types" "0.1.21"
 
 chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
   version "4.1.2"
@@ -5482,6 +5502,11 @@ react-native-screens@^4.18.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-vision-camera@^4.7.2:
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-4.7.2.tgz#e4bd8f3d893a3f5fa9d8224ce28b8ef00d171bc1"
+  integrity sha512-C+5PvlSunN6I4aYplSask+v3jfhgduZumIVw6H6lG+Afpf8boIcG3uFSsSfVgj+hxI7fx6qM6bsciEhzgxEUYg==
+
 react-native@0.82.1:
   version "0.82.1"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.82.1.tgz#8f850bf2d5f04d49246c2d604836218daca19af7"
@@ -5522,6 +5547,13 @@ react-native@0.82.1:
     whatwg-fetch "^3.0.0"
     ws "^6.2.3"
     yargs "^17.6.2"
+
+react-reconciler@0.31.0:
+  version "0.31.0"
+  resolved "https://registry.yarnpkg.com/react-reconciler/-/react-reconciler-0.31.0.tgz#6b7390fe8fab59210daf523d7400943973de1458"
+  integrity sha512-7Ob7Z+URmesIsIVRjnLoDGwBEG/tVitidU0nMsqX/eeJaLY89RISO/10ERe0MqmzuKUUB1rmY+h1itMbUHg9BQ==
+  dependencies:
+    scheduler "^0.25.0"
 
 react-refresh@^0.14.0:
   version "0.14.2"
@@ -5736,6 +5768,11 @@ scheduler@0.26.0, scheduler@^0.26.0:
   version "0.26.0"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.26.0.tgz#4ce8a8c2a2095f13ea11bf9a445be50c555d6337"
   integrity sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==
+
+scheduler@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.25.0.tgz#336cd9768e8cceebf52d3c80e3dcf5de23e7e015"
+  integrity sha512-xFVuu11jh+xcO7JOAGJNOXld8/TcEHK/4CituBUeUb5hqxJLj9YuemAEuvm9gQ/+pgXYfbQuqAkiYu+u7YEsNA==
 
 semver@^6.3.0, semver@^6.3.1:
   version "6.3.1"
