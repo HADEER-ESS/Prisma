@@ -1,19 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Dimensions, Linking, StyleSheet, Text, View, Alert, PermissionsAndroid, Platform } from 'react-native'
-import { Camera, CameraType } from 'react-native-camera-kit'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Dimensions, Linking, StyleSheet, Text, View, Alert, Platform } from 'react-native'
 import FaceDetection from '@react-native-ml-kit/face-detection'
 import LoadCameraComp from '../components/LoadCameraComp'
 import { Canvas, Oval, Rect } from '@shopify/react-native-skia'
 import COLORS from '../constant/colors'
 import ActionBtn from '../components/ActionBtn'
+import { useNavigation } from '@react-navigation/native'
+import { HomeNavigationProp } from '../stack/HomeStack'
+import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera'
 
 const FaceCaptureScreen = () => {
-    const [hasPermission, setHasPermission] = useState(false)
-    const cameraRef = useRef<any>(null)
+    const { hasPermission, requestPermission } = useCameraPermission()
+    const cameraRef = useRef<Camera>(null)
+    const device = useCameraDevice('front')
     const [isCapturing, setIsCapturing] = useState(false)
     const [borderColor, setBorderColor] = useState(COLORS.WHITE)
     const [feedbackText, setFeedbackText] = useState('Position your face in the oval')
+    const [faceDetectionActive, setFaceDetectionActive] = useState(true)
     const detectionIntervalRef = useRef<any>(null)
+    const navigation = useNavigation<HomeNavigationProp>()
 
     // Define face guide position (centered oval)
     const screenWidth = Dimensions.get('window').width
@@ -24,114 +29,105 @@ const FaceCaptureScreen = () => {
     const ovalX = (screenWidth - ovalWidth) / 2
     const ovalY = (screenHeight - ovalHeight) / 2.5
 
+
     // Check if face is within oval bounds
     const isFaceInOval = (face: any): boolean => {
-        // ML Kit returns bounds as { left, top, width, height } or { x, y, width, height }
-        const faceBounds = face.bounds
-        if (!faceBounds) return false
+        console.log("face bounds:", face)
+        // MLKit returns frame with {top, left, width, height}
+        const { top, left, width, height } = face.frame
 
-        const faceX = faceBounds.left ?? faceBounds.x ?? 0
-        const faceY = faceBounds.top ?? faceBounds.y ?? 0
-        const faceWidth = faceBounds.width ?? 0
-        const faceHeight = faceBounds.height ?? 0
+        const ovalCenterX = ovalX + (ovalWidth / 2)
+        const ovalCenterY = ovalY + (ovalHeight / 2)
 
-        if (faceWidth === 0 || faceHeight === 0) return false
+        // Calculate face center using 'left' and 'top' instead of 'x' and 'y'
+        const faceCenterX = left + (width / 2)
+        const faceCenterY = top + (height / 2)
 
-        // Calculate face center
-        const faceCenterX = faceX + faceWidth / 2
-        const faceCenterY = faceY + faceHeight / 2
+        const distanceX = Math.abs(faceCenterX - ovalCenterX)
+        const distanceY = Math.abs(faceCenterY - ovalCenterY)
 
-        // Calculate oval center and bounds
-        const ovalCenterX = ovalX + ovalWidth / 2
-        const ovalCenterY = ovalY + ovalHeight / 2
+        const tolerance = 3.7// 30% more lenient
+        const withinX = distanceX < (ovalWidth / 2) * tolerance
+        const withinY = distanceY < (ovalHeight / 2) * tolerance
 
-        // Check if face center is within oval using ellipse equation
-        const normalizedX = (faceCenterX - ovalCenterX) / (ovalWidth / 2)
-        const normalizedY = (faceCenterY - ovalCenterY) / (ovalHeight / 2)
+        console.log("Distance X:", distanceX.toFixed(0), "/ Max:", ((ovalWidth / 2) * tolerance).toFixed(0))
+        console.log("Distance Y:", distanceY.toFixed(0), "/ Max:", ((ovalHeight / 2) * tolerance).toFixed(0))
 
-        const isInside = (normalizedX * normalizedX + normalizedY * normalizedY) <= 1.2
 
-        // Also check if face is roughly the right size (not too close or far)
-        const sizeRatio = faceWidth / ovalWidth
-        const isGoodSize = sizeRatio > 0.4 && sizeRatio < 1.0
-
-        return isInside && isGoodSize
+        return withinX && withinY
     }
 
-    // Detect face and check quality
-    const detectFace = async () => {
-        if (!cameraRef.current || isCapturing) return
-
-        try {
-            // Capture a snapshot for analysis using camera-kit's capture method
-            const photo = await cameraRef.current.capture({
-                quality: 0.7,
-                saveToCameraRoll: false
-            })
-
-            if (!photo || !photo.uri) {
-                console.warn('No photo URI returned from capture')
-                return
-            }
-
-            // Detect faces in the captured image
-            const faces = await FaceDetection.detect(photo.uri, {
-                performanceMode: 'fast',
-                contourMode: 'none',
-                landmarkMode: 'none',
-            })
-
-            if (faces.length === 0) {
-                setBorderColor(COLORS.WHITE)
-                setFeedbackText('No face detected')
-                return
-            }
-
-            if (faces.length > 1) {
-                setBorderColor(COLORS.TERTIARY)
-                setFeedbackText('Multiple faces detected')
-                return
-            }
-
-            const face = faces[0]
-
-            // Check if face is in the oval
-            if (!isFaceInOval(face)) {
-                setBorderColor(COLORS.WHITE)
-                setFeedbackText('Center your face in the oval')
-                return
-            }
-
-            // Face is good - turn green and capture
-            setBorderColor(COLORS.SECONDARY)
-            setFeedbackText('Perfect! Capturing...')
-
-            // Wait a moment then capture the actual photo
-            setTimeout(() => {
-                capturePhoto()
-            }, 500)
-
-        } catch (error: any) {
-            // Silently ignore camera busy errors during detection
-            if (error?.message?.includes('Not bound') || error?.message?.includes('takePicture')) {
-                console.log('Camera busy, skipping this detection cycle')
-                return
-            }
-            console.error('Face detection error:', error)
+    // Process detected faces
+    const processFaces = (faces: any[]) => {
+        if (faces.length === 0) {
+            setBorderColor(COLORS.WHITE)
+            setFeedbackText('No face detected')
+            return
         }
+
+        if (faces.length > 1) {
+            setBorderColor(COLORS.TERTIARY)
+            setFeedbackText('Multiple faces detected')
+            return
+        }
+
+        const face = faces[0]
+
+        if (!isFaceInOval(face)) {
+            setBorderColor(COLORS.WHITE)
+            setFeedbackText('Center your face in the oval')
+            return
+        }
+
+        // Face is perfect - capture!
+        setBorderColor(COLORS.SECONDARY)
+        setFeedbackText('Perfect! Capturing...')
+        capturePhoto()
     }
 
-    // Start face detection interval
+    // Periodic face detection
     const startFaceDetection = () => {
-        if (detectionIntervalRef.current) return
+        setFaceDetectionActive(true)
+        console.log("start face detection")
 
-        detectionIntervalRef.current = setInterval(() => {
-            detectFace()
-        }, 2000) // Check every 2 seconds to avoid camera busy errors
+        detectionIntervalRef.current = setInterval(async () => {
+            if (!cameraRef.current || isCapturing || !faceDetectionActive) return
+
+            try {
+                // Take low-quality snapshot for detection
+                const snapshot = await cameraRef.current.takeSnapshot({
+                    quality: 85,
+                })
+
+
+                // Add file:// prefix for Android
+                const filePath = Platform.OS === 'android'
+                    ? `file://${snapshot.path}`
+                    : snapshot.path
+
+                // Detect faces using MLKit
+                const faces = await FaceDetection.detect(filePath, {
+                    performanceMode: 'fast',
+                    contourMode: 'none',
+                    landmarkMode: 'none',
+                    classificationMode: 'none',
+                })
+
+                processFaces(faces)
+
+            } catch (error: any) {
+                // Silently ignore errors during detection
+                console.log('Detection error:', error.message)
+
+            }
+        }, 500) // Check every 500ms - adjust as needed
     }
+
+
 
     // Stop face detection interval
     const stopFaceDetection = () => {
+        setFaceDetectionActive(false)
         if (detectionIntervalRef.current) {
             clearInterval(detectionIntervalRef.current)
             detectionIntervalRef.current = null
@@ -139,82 +135,52 @@ const FaceCaptureScreen = () => {
     }
 
     // CAMERA permission check
+    // Request permission
     useEffect(() => {
-        const getPermission = async () => {
-            if (Platform.OS === 'android') {
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.CAMERA,
-                    {
-                        title: 'Camera Permission',
-                        message: 'This app needs access to your camera to capture your selfie.',
-                        buttonNeutral: 'Ask Me Later',
-                        buttonNegative: 'Cancel',
-                        buttonPositive: 'OK',
-                    },
-                )
-                setHasPermission(granted === PermissionsAndroid.RESULTS.GRANTED)
-            } else {
-                // iOS permissions are handled automatically by camera-kit
-                setHasPermission(true)
-            }
+        if (!hasPermission) {
+            requestPermission()
         }
-        getPermission()
-    }, [])
+    }, [hasPermission])
 
     // Start/stop face detection when component mounts/unmounts
+    // Start detection when component mounts
     useEffect(() => {
-        if (hasPermission) {
+        if (hasPermission && device) {
+            // Small delay to ensure camera is ready
             startFaceDetection()
         }
 
         return () => {
             stopFaceDetection()
         }
-    }, [hasPermission])
+    }, [hasPermission, device])
 
-    const capturePhoto = async () => {
-        if (!cameraRef.current || isCapturing) return
+    const capturePhoto = useCallback(async () => {
+        const camera = cameraRef.current
 
-        setIsCapturing(true)
+        if (!camera || !device) {
+            console.log("Camera not ready")
+            return
+        }
+
         stopFaceDetection()
 
         try {
-            // Capture high-quality photo for analysis
-            const photo = await cameraRef.current.capture({
-                quality: 1.0,
-                saveToCameraRoll: true
+            const photo = await camera.takePhoto({
+                flash: 'off',
             })
 
-            console.log("Photo captured: ", photo.uri)
+            console.log("Success:", photo.path)
 
-            // TODO: Send to Google AI API for analysis and store in MMKV
-            // Example:
-            // const analysis = await analyzeWithGoogleAI(photo.uri)
-            // MMKV.set('user_color_palette', JSON.stringify(analysis))
-            // navigation.navigate('ResultScreen', { analysis })
-
-            Alert.alert(
-                'Photo Captured!',
-                'Your selfie has been captured successfully. Ready for analysis.',
-                [{
-                    text: 'OK', onPress: () => {
-                        setBorderColor(COLORS.WHITE)
-                        setFeedbackText('Position your face in the oval')
-                        setIsCapturing(false)
-                        startFaceDetection()
-                    }
-                }]
-            )
+            navigation.navigate('result_screen', {
+                photoUri: `file://${photo.path}`
+            })
 
         } catch (error: any) {
-            console.error("Error capturing photo: ", error)
-            Alert.alert('Error', 'Failed to capture photo. Please try again.')
-            setBorderColor(COLORS.WHITE)
-            setFeedbackText('Position your face in the oval')
-            setIsCapturing(false)
-            startFaceDetection()
+            console.error("Error:", error.message)
+            Alert.alert('Error', error.message)
         }
-    }
+    }, [stopFaceDetection, navigation])
 
     if (!hasPermission) {
         return (
@@ -224,7 +190,7 @@ const FaceCaptureScreen = () => {
                     text="Activate Camera"
                     textColor={COLORS.WHITE}
                     backgroundColor={COLORS.PRIMARY}
-                    onClick={() => Linking.openSettings()}
+                    onClick={() => requestPermission()}
                 />
             </View>
         )
@@ -238,8 +204,11 @@ const FaceCaptureScreen = () => {
                 <>
                     <Camera
                         ref={cameraRef}
-                        cameraType={CameraType.Front}
+                        device={device!!}
+                        isActive={true}
+                        photo={true}
                         style={StyleSheet.absoluteFill}
+
                     />
 
                     {/* Overlay with face guide */}
