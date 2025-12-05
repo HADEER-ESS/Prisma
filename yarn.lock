@@ -1526,7 +1526,7 @@
 
 "@react-native-ml-kit/face-detection@^2.0.1":
   version "2.0.1"
-  resolved "https://registry.npmjs.org/@react-native-ml-kit/face-detection/-/face-detection-2.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/@react-native-ml-kit/face-detection/-/face-detection-2.0.1.tgz#bd95ff1d908b58dd9426c9f5c55b3aaabed2f49e"
   integrity sha512-TOUwO90LRnJ3VhJYTS2VJbxtzDeaKjm6UjGufgqYjQbPsFCOwRtnmwBbjXZ0v5ih/Fmfjffb0W1I3c1773Q85Q==
 
 "@react-native-vector-icons/common@^12.3.1", "@react-native-vector-icons/common@^12.4.0":
@@ -5484,11 +5484,6 @@ react-is@^19.1.0, react-is@^19.1.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-19.2.0.tgz"
   integrity sha512-x3Ax3kNSMIIkyVYhWPyO09bu0uttcAIoecO/um/rKGQ4EltYWVYtyiGkS/3xMynrbVQdS69Jhlv8FXUEZehlzA==
 
-react-native-camera-kit@^16.1.3:
-  version "16.1.3"
-  resolved "https://registry.npmjs.org/react-native-camera-kit/-/react-native-camera-kit-16.1.3.tgz"
-  integrity sha512-mqOgFY8wON6YGaZVSP1eaH+fbcxIbUSgAaFlt5yLTz3H8Lc1Hl0IvQ4FlcC1lG5AbyqCyNqvK60kkgq5dWFnag==
-
 react-native-mmkv@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/react-native-mmkv/-/react-native-mmkv-4.0.0.tgz"
@@ -5511,6 +5506,11 @@ react-native-screens@^4.18.0:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-vision-camera@^4.7.3:
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-4.7.3.tgz#ed03cedabcaec54774f5aa40e69afa30069924d4"
+  integrity sha512-g1/neOyjSqn1kaAa2FxI/qp5KzNvPcF0bnQw6NntfbxH6tm0+8WFZszlgb5OV+iYlB6lFUztCbDtyz5IpL47OA==
 
 react-native@0.82.1:
   version "0.82.1"
