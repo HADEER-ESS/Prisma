@@ -1,4 +1,4 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
 import { Details, FaceCaption, Home, Result } from '../screens'
 import COLORS from '../constant/colors'
@@ -6,7 +6,14 @@ import { getFocusedRouteNameFromRoute, RouteProp } from '@react-navigation/nativ
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { RootStackParamList } from './RootNavigator'
 
-const Stack = createNativeStackNavigator()
+type HomeStackParamList = {
+    home_screen: undefined;
+    caption_screen: undefined;
+    result_screen: { photoUri: string };
+    details_screen: { caption: string };
+}
+
+const Stack = createNativeStackNavigator<HomeStackParamList>()
 
 type StackProps = {
     navigation: BottomTabNavigationProp<RootStackParamList, "home_flow">,
@@ -56,3 +63,5 @@ const HomeStack = ({ navigation, route }: StackProps) => {
 }
 
 export default HomeStack
+
+export type HomeNavigationProp = NativeStackNavigationProp<HomeStackParamList>;
