@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     btnText: {
         textAlign: 'center',
         fontSize: 21,
-        paddingVertical: 10,
+        paddingVertical: 12,
+        paddingHorizontal: 12
     }
 })
