@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Prisma</string>
+    <string name="wink_splash_image">wink splash image</string>
 </resources>
