@@ -2,12 +2,10 @@ import { FavoriteFlow, HomeFlow } from ".";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo } from "@react-native-vector-icons/entypo";
 import COLORS from "../constant/colors";
+import { RootStackParamList } from "./types";
 
 
-export type RootStackParamList = {
-    home_flow: undefined;
-    favorite_flow: undefined;
-}
+
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 

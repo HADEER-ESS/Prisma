@@ -6,8 +6,8 @@ import { Canvas, Oval, Rect } from '@shopify/react-native-skia'
 import COLORS from '../constant/colors'
 import ActionBtn from '../components/ActionBtn'
 import { useNavigation } from '@react-navigation/native'
-import { HomeNavigationProp } from '../stack/HomeStack'
 import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera'
+import { HomeNavigationProp } from '../stack/types'
 
 const FaceCaptureScreen = () => {
     const { hasPermission, requestPermission } = useCameraPermission()
