@@ -9,6 +9,14 @@
     "start": "react-native start",
     "test": "jest"
   },
+  "codegenConfig": {
+    "name": "PrismaModule",
+    "type": "modules",
+    "jsSrcsDir": "specs",
+    "android:": {
+      "javaPackageName": "com.prismamodule"
+    }
+  },
   "dependencies": {
     "@react-native-ml-kit/face-detection": "^2.0.1",
     "@react-native-vector-icons/common": "^12.3.1",
