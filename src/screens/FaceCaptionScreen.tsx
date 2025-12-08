@@ -8,6 +8,7 @@ import ActionBtn from '../components/ActionBtn'
 import { useNavigation } from '@react-navigation/native'
 import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera'
 import { HomeNavigationProp } from '../stack/types'
+import NativeCropToOvalImage from '../../specs/NativeCropToOvalImage'
 
 const FaceCaptureScreen = () => {
     const { hasPermission, requestPermission } = useCameraPermission()
@@ -17,6 +18,7 @@ const FaceCaptureScreen = () => {
     const [borderColor, setBorderColor] = useState(COLORS.WHITE)
     const [feedbackText, setFeedbackText] = useState('Position your face in the oval')
     const [faceDetectionActive, setFaceDetectionActive] = useState(true)
+
     const detectionIntervalRef = useRef<any>(null)
     const navigation = useNavigation<HomeNavigationProp>()
 
@@ -157,7 +159,7 @@ const FaceCaptureScreen = () => {
 
     const capturePhoto = useCallback(async () => {
         const camera = cameraRef.current
-
+        console.log("Capturing photo...")
         if (!camera || !device) {
             console.log("Camera not ready")
             return
@@ -166,19 +168,47 @@ const FaceCaptureScreen = () => {
         stopFaceDetection()
 
         try {
+            console.log("Taking screenshot of view...", camera)
             const photo = await camera.takePhoto({
-                flash: 'off',
+                flash: 'on',
             })
 
-            console.log("Success:", photo.path)
+            const path = `file://${photo.path}`
+            console.log("Success:", path)
+            const cropped = await NativeCropToOvalImage.cropToOvalImage(
+                path,
+                ovalWidth,
+                ovalHeight,
+                ovalX,
+                ovalY,
+                screenWidth,
+                screenHeight,
+            )
+
+            console.log("Native Moduleresult path ", cropped)
+
 
             navigation.navigate('result_screen', {
-                photoUri: `file://${photo.path}`
+                photoUri: cropped
             })
 
         } catch (error: any) {
-            console.error("Error:", error.message)
-            Alert.alert('Error', error.message)
+            console.error("Error: capturePhoto", error)
+            Alert.alert('Error', error.message, [
+                {
+                    text: 'OK',
+                    onPress: () => { }
+                },
+                {
+                    text: "Cancel",
+                    onPress: () => navigation.goBack()
+                }
+            ])
+            if (error.message.includes('User cancelled image selection')) {
+                // User cancelled cropping - resume detection
+                setIsCapturing(false)
+                startFaceDetection()
+            }
         }
     }, [stopFaceDetection, navigation])
 
@@ -197,7 +227,7 @@ const FaceCaptureScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} collapsable={false}>
             {isCapturing ? (
                 <LoadCameraComp loadingText="Capturing..." />
             ) : (
@@ -219,7 +249,8 @@ const FaceCaptureScreen = () => {
                             y={0}
                             width={screenWidth}
                             height={screenHeight}
-                            color="rgba(0, 0, 0, 0.5)"
+                            // color="rgba(0, 0, 0, 0.5)"
+                            color={'white'}
                         />
 
                         {/* Clear oval area (cutout effect) */}
