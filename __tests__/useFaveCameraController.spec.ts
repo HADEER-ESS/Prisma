@@ -5,29 +5,10 @@ import COLORS from '../src/constant/colors'
 import { DIMENSIONS } from '../src/constant/dimensions'
 import NativeCropToOvalImage from '../__mocks__/NativeCropToOvalImage'
 
-// Mock dependencies
-jest.mock('react-native-vision-camera', () => ({
-    useCameraPermission: jest.fn(),
-    useCameraDevice: jest.fn(),
-    Camera: 'Camera',
-}))
-
-jest.mock('@react-navigation/native', () => ({
-    useNavigation: jest.fn(),
-}))
-
-jest.mock('@react-native-ml-kit/face-detection', () => ({
-    __esModule: true,
-    default: {
-        detect: jest.fn(),
-    },
-}))
-
 
 
 jest.spyOn(Alert, 'alert')
 jest.spyOn(console, 'log').mockImplementation()
-jest.spyOn(console, 'error').mockImplementation()
 
 describe('useFaveCameraController', () => {
     let mockRequestPermission: jest.Mock
