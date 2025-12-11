@@ -1,10 +1,11 @@
 import React from 'react'
-import { Favorite, Preview } from '../screens';
+import { Favorite, Result } from '../screens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import COLORS from '../constant/colors';
+import { FavoriteStackParamList } from './types';
 
 
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator<FavoriteStackParamList>()
 
 
 const FavoriteStack = () => {
@@ -22,8 +23,8 @@ const FavoriteStack = () => {
                 component={Favorite}
             />
             <Stack.Screen
-                name='preview_screen'
-                component={Preview}
+                name='result_screen'
+                component={Result}
             />
         </Stack.Navigator>
     )

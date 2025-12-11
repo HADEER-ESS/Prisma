@@ -7,13 +7,14 @@ import COLORS from '../constant/colors'
 type Props = {
     route: {
         params: {
-            photoUri: string
+            photoUri: string,
+            data: any[]
         }
     }
 }
 
 const ResultScreen = ({ route }: Props) => {
-    const { photoUri } = route.params;
+    const { photoUri, data } = route.params;
 
     console.log('Received photo URI:', photoUri);
 
