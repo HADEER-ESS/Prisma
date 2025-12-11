@@ -10,8 +10,13 @@ export type RootStackParamList = {
 export type HomeStackParamList = {
     home_screen: undefined;
     caption_screen: undefined;
-    result_screen: { photoUri: string };
+    result_screen: { photoUri: string, data: any[] };
     details_screen: { caption: string };
+}
+
+export type FavoriteStackParamList = {
+    favorite_screen: undefined;
+    result_screen: { photoUri: string, data: any[] };
 }
 
 export type StackProps = {
