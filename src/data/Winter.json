@@ -1,7 +1,39 @@
 {
-    "Best Color" : [],
-    "Worest Color" : [],
-    "Make Up Recommendation" : "",
-    "Hair Color" : "",
-    "Accessory" : ""
+  "id": "winter_cool",
+  "displayName": "Winter Cool",
+  "icon": "❄️",
+  "description": "High contrast, cool-toned, and striking appearance.",
+
+  "bestColors": [
+    "#FFFFFF",  
+    "#000000",  
+    "#007FFF",  
+    "#007A5E",  
+    "#C8102E",  
+    "#C71585" 
+  ],
+
+  "worstColors": [
+    "#C2B280",  
+    "#C19A6B",  
+    "#F3C1CC",  
+    "#A89F91" 
+  ],
+
+  "makeup": {
+    "foundation": ["cool beige", "neutral ivory"],
+    "blush": ["cool rose", "berry"],
+    "lipstick": ["blue red", "wine", "plum"],
+    "eyeshadow": ["charcoal", "cool brown", "black"]
+  },
+
+  "accessories": {
+    "metals": ["silver", "platinum"],
+    "glasses": ["black", "clear"]
+  },
+
+  "hairColors": {
+    "best": ["jet black", "cool dark brown"],
+    "avoid": ["golden brown", "warm highlights"]
+  }
 }

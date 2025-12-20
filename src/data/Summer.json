@@ -1,7 +1,40 @@
 {
-    "Best Color" : [],
-    "Worest Color" : [],
-    "Make Up Recommendation" : "",
-    "Hair Color" : "",
-    "Accessory" : ""
+  "id": "summer_cool",
+  "displayName": "Summer Cool",
+  "icon": "🌞",
+  "description": "Soft, cool-toned coloring with a gentle and elegant feel.",
+
+  "bestColors": [
+    "#E6E6FA", 
+    "#F4C2C2",  
+    "#FFC0CB",  
+    "#B0C4DE",  
+    "#D3D3D3",  
+    "#F8F8FF" 
+  ],
+
+  "worstColors": [
+    "#FFA500",  
+    "#FFDB58",  
+    "#8B4513",  
+    "#39FF14", 
+    "#000000"
+  ],
+
+  "makeup": {
+    "foundation": ["cool ivory", "neutral beige"],
+    "blush": ["rose pink", "soft mauve"],
+    "lipstick": ["dusty rose", "berry pink"],
+    "eyeshadow": ["cool taupe", "soft gray", "lavender"]
+  },
+
+  "accessories": {
+    "metals": ["silver", "white gold"],
+    "glasses": ["clear", "soft gray"]
+  },
+
+  "hairColors": {
+    "best": ["ash brown", "soft black"],
+    "avoid": ["golden blonde", "copper"]
+  }
 }

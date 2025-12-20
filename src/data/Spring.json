@@ -1,7 +1,40 @@
 {
-    "Best Color" : [],
-    "Worest Color" : [],
-    "Make Up Recommendation" : "",
-    "Hair Color" : "",
-    "Accessory" : ""
+  "id": "spring_warm",
+  "displayName": "Spring Warm",
+  "icon": "🌸",
+  "description": "Warm, bright, and fresh appearance with a natural glow.",
+
+  "bestColors": [
+    "#FFB7C5", 
+    "#FF7F50",  
+    "#FFD1DC",  
+    "#FBCEB1",  
+    "#FFFFF0",  
+    "#D2B48C" 
+  ],
+
+  "worstColors": [
+    "#000000",  
+    "#808080",  
+    "#800020",  
+    "#C08081",  
+    "#000080"
+  ],
+
+  "makeup": {
+    "foundation": ["warm beige", "golden ivory"],
+    "blush": ["peach", "coral"],
+    "lipstick": ["coral pink", "salmon", "warm red"],
+    "eyeshadow": ["champagne", "gold", "light brown"]
+  },
+
+  "accessories": {
+    "metals": ["gold", "rose gold"],
+    "glasses": ["tortoiseshell", "warm brown"]
+  },
+
+  "hairColors": {
+    "best": ["warm brown", "golden brown", "light chestnut"],
+    "avoid": ["ashy brown", "blue black"]
+  }
 }

@@ -1,7 +1,39 @@
 {
-    "Best Color" : [],
-    "Worest Color" : [],
-    "Make Up Recommendation" : "",
-    "Hair Color" : "",
-    "Accessory" : ""
+  "id": "autumn_warm",
+  "displayName": "Autumn Warm",
+  "icon": "🍂",
+  "description": "Deep, warm, and rich coloring with earthy tones.",
+
+  "bestColors": [
+    "#6B8E23", 
+    "#D4A017",  
+    "#B7410E",  
+    "#3B7A78",  
+    "#C19A6B",  
+    "#FFF1C1"   
+  ],
+
+  "worstColors": [
+    "#E6E8FA",  
+    "#F4A6C1",  
+    "#FFFFFF",  
+    "#1F51FF"
+  ],
+
+  "makeup": {
+    "foundation": ["warm tan", "golden beige"],
+    "blush": ["terracotta", "warm bronze"],
+    "lipstick": ["brick red", "burnt orange", "brown red"],
+    "eyeshadow": ["bronze", "olive", "deep brown"]
+  },
+
+  "accessories": {
+    "metals": ["gold", "bronze"],
+    "glasses": ["dark brown", "olive"]
+  },
+
+  "hairColors": {
+    "best": ["dark brown", "auburn", "warm black"],
+    "avoid": ["platinum blonde", "ashy gray"]
+  }
 }
