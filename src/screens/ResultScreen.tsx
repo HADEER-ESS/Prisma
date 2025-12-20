@@ -1,70 +1,70 @@
-import React, { useLayoutEffect } from 'react'
-import { Text, View, Image, StyleSheet } from 'react-native'
+import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react'
+import { Text, View, Image, StyleSheet, FlatList } from 'react-native'
 import DetailsSection from '../components/DetailsSection'
 import ActionBtn from '../components/ActionBtn'
 import COLORS from '../constant/colors'
+import SeasonItem from '../components/SeasonItem'
+import { seasons } from '../data/minimalData'
+import { PERSONAL_COLORS } from '../data'
+import { PersonalColorId } from '../types/personalColorSeason'
+import { useNavigation } from '@react-navigation/native'
+import { HomeNavigationProp } from '../stack/types'
 
 type Props = {
     route: {
         params: {
             photoUri: string,
-            data: any[]
         }
     }
 }
 
 const ResultScreen = ({ route }: Props) => {
-    const { photoUri, data } = route.params;
+    const { photoUri } = route.params;
+    const [seasonName, setSeasonName] = useState<PersonalColorId>();
+    const navigation = useNavigation<HomeNavigationProp>()
 
-    console.log('Received photo URI:', photoUri);
+    const colorPallate = useMemo(() => {
+        return PERSONAL_COLORS.find(season => season.id === seasonName)?.bestColors || []
+    }, [seasonName])
 
-    //CALL GOOGLE AI API here to get the image analysis result
-    useLayoutEffect(() => { }, [])
+
     return (
         <View style={styles.container}>
-            <Image
-                source={{ uri: photoUri }}
-                resizeMode='contain'
-                style={styles.imageStyle}
+            <View style={styles.pallateContainerView}>
+                <Image
+                    source={{ uri: photoUri }}
+                    resizeMode='contain'
+                    style={styles.imageStyle}
+                />
+            </View>
+
+            <Text>Select The Sweatable Color Season</Text>
+            <FlatList
+                data={seasons}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <SeasonItem fun={() => setSeasonName(item.id)} title={item.displayName} icon={item.icon} />
+                )}
             />
-            <DetailsSection
-                title="Undertone"
-            />
-            <DetailsSection
-                title="Season"
-            />
-            <DetailsSection
-                title="Best Colors"
-            />
-            <DetailsSection
-                title="Avoid Colors"
-            />
-            <DetailsSection
-                title="Clothing Colors"
-            />
-            <DetailsSection
-                title="Makeup"
-            />
-            <DetailsSection
-                title="Accessories"
-            />
-            {/* <ActionBtn
+            <ActionBtn
                 text={"Show Details"}
                 textColor={COLORS.WHITE}
                 backgroundColor={COLORS.PRIMARY}
                 onClick={() => {
                     //Navigate to Details Screen
-                    //Navigate with Data from Google AI API
+                    navigation.navigate("details_screen", { season: seasonName })
                 }}
-            /> */}
-            <ActionBtn
+            />
+            {/* Make save in the next screen where user have the ability to test all colors in pallete separatly */}
+            {/* and contain the rest information about the tone color */}
+            {/* <ActionBtn
                 text={"Save Palette"}
                 textColor={COLORS.PRIMARY}
                 backgroundColor={COLORS.WHITE}
                 onClick={() => {
                     //Where Caching the Palatte data in MMKV Storage
                 }}
-            />
+            /> */}
         </View>
     )
 }
@@ -76,6 +76,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    pallateContainerView: {
+
     },
     imageStyle: {
         width: 300,
