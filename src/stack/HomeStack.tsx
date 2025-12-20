@@ -1,6 +1,6 @@
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
-import { FaceCaption, Home, Result } from '../screens'
+import { Details, FaceCaption, Home, Result } from '../screens'
 import COLORS from '../constant/colors'
 import { getFocusedRouteNameFromRoute, RouteProp } from '@react-navigation/native'
 import { HomeStackParamList, StackProps } from './types'
@@ -45,6 +45,10 @@ const HomeStack = ({ navigation, route }: StackProps) => {
             <Stack.Screen
                 name='result_screen'
                 component={Result}
+            />
+            <Stack.Screen
+                name='details_screen'
+                component={Details}
             />
         </Stack.Navigator>
     )

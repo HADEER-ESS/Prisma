@@ -1,6 +1,7 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { PersonalColorId } from "../types/personalColorSeason";
 
 export type RootStackParamList = {
     home_flow: undefined;
@@ -10,13 +11,13 @@ export type RootStackParamList = {
 export type HomeStackParamList = {
     home_screen: undefined;
     caption_screen: undefined;
-    result_screen: { photoUri: string, data: any[] };
-    details_screen: { caption: string };
+    result_screen: { photoUri: string };
+    details_screen: { season?: PersonalColorId };
 }
 
 export type FavoriteStackParamList = {
     favorite_screen: undefined;
-    result_screen: { photoUri: string, data: any[] };
+    result_screen: { photoUri: string };
 }
 
 export type StackProps = {
