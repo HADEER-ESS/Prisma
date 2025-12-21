@@ -42,8 +42,8 @@ class NativeCropToOvalImageModule (
 
             val cropX = (ovalX * scaleX).toInt()
             val cropY = (ovalY * scaleY).toInt()
-            val cropWidth = (ovalWidth * scaleY).toInt()
-            val cropHeight = (ovalHeight * scaleY).toInt()
+            val cropWidth = ((ovalWidth * scaleX) -cropX).toInt()
+            val cropHeight = ((ovalHeight * scaleY) +cropY/2.5).toInt()
 
             if( cropX < 0 ||
                 cropY < 0 ||
