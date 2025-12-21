@@ -1,17 +1,18 @@
-name: Test Project
-
-on: 
-    pull_request:
-        branches:
-            - main
-
+name: React Native CI
+on:
+  push:
+    branches:
+      - master
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        container:
-            image: node:20
-        steps:
-            - uses: actions/checkout@v3
-            - run: yarn install
-            - run: yarn test
-            - run: yarn run android:beta
+  build:
+    runs-on: ubuntu-latest  # use macOS runner for iOS compatibility
+    steps:
+      - uses: actions/checkout@v3      # Check out code
+      - name: Set up Node.js          
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: yarn install
+      - name: Run tests
+        run: yarn test
