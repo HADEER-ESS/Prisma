@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - details_analysis
 jobs:
   build:
     runs-on: ubuntu-latest  # use macOS runner for iOS compatibility
