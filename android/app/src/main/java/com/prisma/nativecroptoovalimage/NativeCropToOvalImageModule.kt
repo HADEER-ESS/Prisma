@@ -40,10 +40,13 @@ class NativeCropToOvalImageModule (
             val scaleX = bitmap.width.toFloat() / screenWidth.toFloat()
             val scaleY = bitmap.height.toFloat() / screenHeight.toFloat()
 
-            val cropX = (ovalX * scaleX).toInt()
+            // Mirror X coordinate for front camera (image is flipped horizontally)
+            val mirroredOvalX = screenWidth - ovalX - ovalWidth
+            
+            val cropX = (mirroredOvalX * scaleX - ovalX*2).toInt()
             val cropY = (ovalY * scaleY).toInt()
-            val cropWidth = ((ovalWidth * scaleX) -cropX).toInt()
-            val cropHeight = ((ovalHeight * scaleY) +cropY/2.5).toInt()
+            val cropWidth = ((ovalWidth * scaleX) - (cropX/1.8)).toInt()
+            val cropHeight = ((ovalHeight * scaleY) + (cropY/3)).toInt()
 
             if( cropX < 0 ||
                 cropY < 0 ||
