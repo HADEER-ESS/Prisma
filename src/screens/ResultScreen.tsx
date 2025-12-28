@@ -9,6 +9,7 @@ import { PERSONAL_COLORS } from '../data'
 import { PersonalColorId } from '../types/personalColorSeason'
 import { useNavigation } from '@react-navigation/native'
 import { HomeNavigationProp } from '../stack/types'
+import SunShinePreview from '../components/SunShinePreview'
 
 type Props = {
     route: {
@@ -30,6 +31,7 @@ const ResultScreen = ({ route }: Props) => {
 
     return (
         <View style={styles.container}>
+            <SunShinePreview colorsList={colorPallate} />
             <View style={styles.pallateContainerView}>
                 <Image
                     source={{ uri: photoUri }}
@@ -76,6 +78,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 50,
     },
     pallateContainerView: {
 
