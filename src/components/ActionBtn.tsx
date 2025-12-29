@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ColorValue, StyleSheet, Text, TextStyle, TouchableOpacity } from 'react-native'
 
 type Props = {
@@ -9,14 +9,23 @@ type Props = {
 }
 
 const ActionBtn = ({ text, textColor, backgroundColor, onClick }: Props) => {
+    const [showText, setShowText] = useState<boolean>(false)
+
     return (
         <TouchableOpacity
             style={[styles.btnContainer, { backgroundColor: backgroundColor }]}
+            accessibilityRole="button"  //now we can test this component using _*ByRole
             onPress={onClick}
+            onLongPress={() => {
+                setTimeout(() => {
+                    setShowText(!showText)
+                }, 5000)
+            }}
         >
             <Text style={[styles.btnText, { color: textColor }]}>
                 {text}
             </Text>
+            {showText && <Text testID='show_text' style={{ textAlign: 'center', color: textColor as TextStyle['color'] }}>Hello For TEST...</Text>}
         </TouchableOpacity>
     )
 }
