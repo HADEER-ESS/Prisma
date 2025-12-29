@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react-native"
+import { render, screen } from "@testing-library/react-native"
 import FaceCaptureScreen from "../src/screens/FaceCaptionScreen"
 import { useFaveCameraController } from "../src/util/useFaveCameraController"
 
@@ -21,11 +21,14 @@ describe("Face Caption Screen Tests", () => {
             ovalY: 50,
             device: null,
         })
-        const { getByTestId, queryByTestId } = render(<FaceCaptureScreen />)
+
+        // const { getByTestId, queryByTestId } = 
+        //latest render result is kept in screen variable
+        render(<FaceCaptureScreen />)
         // Should show error message
-        expect(getByTestId("error_message")).toBeTruthy()
+        expect(screen.queryByTestId("error_message")).toBeTruthy()
         // Should NOT show camera view
-        expect(queryByTestId("camera_view")).toBeNull()
+        expect(screen.queryByTestId("camera_view")).toBeNull()
 
     })
 
@@ -45,10 +48,21 @@ describe("Face Caption Screen Tests", () => {
             ovalY: 50,
             device: null,
         })
-        const { getByTestId, queryByTestId } = render(<FaceCaptureScreen />)
+        const { queryByTestId } = render(<FaceCaptureScreen />)
 
-        expect(getByTestId("camera_view")).toBeTruthy()
+        expect(queryByTestId("camera_view")).toBeTruthy()
         expect(queryByTestId("error_message")).toBeNull()
 
     })
 })
+
+{/*
+    getBy... query methods fail (throws error) when there is no matching element (null) but queryBy... 
+    methods don’t throw an error when no element (null) is found. We don’t want to get error from the line of fetching element. 
+    We want to get the error from the last line of TEST suit that is “expect”. So use queryBy... method instead of getBy...
+*/}
+{/**
+ findBy* and findAllBy* queries accept optional waitForOptions object argument which can contain
+  timeout, interval and onTimeout properties which have the same meaning as respective options for waitFor function.    
+    
+*/}

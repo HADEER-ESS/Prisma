@@ -10,7 +10,7 @@ const HomeScreen = () => {
         navigation.navigate("caption_screen" as never)
     }
     return (
-        <View style={styles.fullScreen}>
+        <View style={styles.fullScreen} accessible={true} > {/*now we can test this component using _*ByRole*/}
             <Text style={styles.mainTextStyle}>
                 Let your skin tone
                 <Text style={{ color: COLORS.PRIMARY }}>{' '}guide{' '}</Text>
