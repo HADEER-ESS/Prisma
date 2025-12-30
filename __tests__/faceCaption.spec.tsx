@@ -54,6 +54,25 @@ describe("Face Caption Screen Tests", () => {
         expect(queryByTestId("error_message")).toBeNull()
 
     })
+
+    test("try to use jest.MOCK for mocking some modules and Native behaviors", () => {
+        //jest.mock(moduleName, callback function with METHODS that want to MOCK)
+        jest.mock('@react-native-community/async-storage', () => ({
+            getItem: jest.fn(() => Promise.resolve('some value')),
+            setItem: jest.fn(() => Promise.resolve()),
+        }));
+
+
+
+        //mock version of PermissionsAndroid with two methods: request and check
+        jest.mock('react-native', () => ({
+            ...jest.requireActual('react-native'),
+            PermissionsAndroid: {
+                request: jest.fn(() => Promise.resolve('granted')),
+                check: jest.fn(() => Promise.resolve(true)),
+            },
+        }));
+    })
 })
 
 {/*

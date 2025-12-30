@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen, userEvent } from "@testing-library/reac
 import ActionBtn from "../src/components/ActionBtn"
 
 describe("<ActionBtn/>", () => {
+    //create a MOCK function
     const fn = jest.fn()
     test("Make sure component render correctly with basic Props", () => {
 
@@ -72,6 +73,7 @@ describe("<ActionBtn/>", () => {
         fireEvent.press(btn!!)
 
         act(() => {
+            //set the Fake TIMER to ADVANCE
             jest.advanceTimersByTime(10000)
         })
 

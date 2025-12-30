@@ -1,0 +1,8 @@
+
+
+jest.fn()  =>  is a function that returns a new, empty mock function. 
+           =>  use this mock function to replace a real function in your codebase 
+
+
+jest.mock()     => is a function that allows you to replace a module with a mock implementation.
+                => useful when you want to test a module that has dependencies on other modules.
