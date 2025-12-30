@@ -15,7 +15,12 @@ const ActionBtn = ({ text, textColor, backgroundColor, onClick }: Props) => {
         <TouchableOpacity
             style={[styles.btnContainer, { backgroundColor: backgroundColor }]}
             accessibilityRole="button"  //now we can test this component using _*ByRole
-            onPress={onClick}
+            // onPress={onClick}
+            onPress={() => {
+                setTimeout(() => {
+                    setShowText(!showText)
+                }, 5000)
+            }}
             onLongPress={() => {
                 setTimeout(() => {
                     setShowText(!showText)

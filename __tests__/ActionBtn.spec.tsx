@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, userEvent } from "@testing-library/react-native"
+import { act, fireEvent, render, screen, userEvent } from "@testing-library/react-native"
 import ActionBtn from "../src/components/ActionBtn"
 
 describe("<ActionBtn/>", () => {
@@ -57,6 +57,36 @@ describe("<ActionBtn/>", () => {
         expect(showedText).toBeOnTheScreen()
         expect(showedText).toHaveTextContent("Hello For TEST...")
     })
+
+    test("Make a test case to use FireEvent", async () => {
+        // Activate FakeTimer
+        jest.useFakeTimers()
+
+        //render the screen
+        render(<ActionBtn text={"Take a Photo"} textColor={"#FFFFFF"} backgroundColor={"#000000"} onClick={fn} />)
+
+        //Get the BTN
+        const btn = screen.queryByRole('button')
+
+        //set action of btn
+        fireEvent.press(btn!!)
+
+        act(() => {
+            jest.advanceTimersByTime(10000)
+        })
+
+        const showedText = screen.queryByTestId("show_text")
+
+        expect(showedText).toBeOnTheScreen()
+
+        jest.useRealTimers()
+        {/*
+        If you place jest.advanceTimersByTime(10000) before fireEvent.press(button), 
+        you will see an error because screen.queryByTestId and expect(textConditional) 
+        depend on a setTimeout state update with a delay of 5 seconds after the button 
+        press inside the component below.    
+        */}
+    })
 })
 
 {/**
@@ -72,4 +102,11 @@ update method perform TWO different tasks:
 
 
 **update() with new value but without changing key will not MOUNT the component again, & it will just only update the existing DOM tree.
+*/}
+
+{/*
+    userEvent => we set the fake timer advance inside the setup
+    and we set TIMER before calling the action (async/await)
+
+    fireEvent => we set the TIMER after calling the action
 */}
